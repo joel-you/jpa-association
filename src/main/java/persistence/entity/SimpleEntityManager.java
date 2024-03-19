@@ -3,20 +3,20 @@ package persistence.entity;
 import jdbc.JdbcTemplate;
 import persistence.context.EntitySnapshot;
 import persistence.context.PersistenceContext;
-import persistence.sql.dialect.Dialect;
 import persistence.sql.metadata.EntityMetadata;
 import persistence.sql.metadata.PrimaryKeyMetadata;
 
 import java.util.Objects;
 
 public class SimpleEntityManager implements EntityManager {
+
     private final EntityPersister entityPersister;
     private final EntityLoader entityLoader;
     private final PersistenceContext persistenceContext;
 
-    public SimpleEntityManager(JdbcTemplate jdbcTemplate, PersistenceContext persistenceContext, Dialect dialect) {
-        this.entityPersister = new EntityPersister(jdbcTemplate, dialect);
-        this.entityLoader = new EntityLoader(jdbcTemplate, dialect);
+    public SimpleEntityManager(JdbcTemplate jdbcTemplate, PersistenceContext persistenceContext) {
+        this.entityPersister = new EntityPersister(jdbcTemplate);
+        this.entityLoader = new EntityLoader(jdbcTemplate);
         this.persistenceContext = persistenceContext;
     }
 

@@ -56,5 +56,4 @@ public class EntityPersisterTest extends DatabaseTest {
         // then
         assertThatThrownBy(() -> entityManager.find(Person.class, 1L)).isInstanceOf(RuntimeException.class);
     }
-
 }

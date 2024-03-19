@@ -1,6 +1,5 @@
 package persistence.sql.dml;
 
-import persistence.sql.dialect.Dialect;
 import persistence.sql.dml.conditions.WhereRecord;
 import persistence.sql.metadata.ColumnMetadata;
 import persistence.sql.metadata.EntityMetadata;
@@ -14,12 +13,10 @@ public class SelectQueryBuilder {
     public static final String SELECT_TEMPLATE = "SELECT %s FROM %s";
     public static final String DELIMITER = ", ";
     public static final String WHERE_DELIMITER = " ";
-    private final Dialect dialect;
     private final EntityMetadata entity;
     private final WhereQueryBuilder whereQueryBuilder;
 
-    private SelectQueryBuilder(Dialect dialect, EntityMetadata entity, WhereQueryBuilder whereQueryBuilder) {
-        this.dialect = dialect;
+    private SelectQueryBuilder(EntityMetadata entity, WhereQueryBuilder whereQueryBuilder) {
         this.entity = entity;
         this.whereQueryBuilder = whereQueryBuilder;
     }
@@ -29,16 +26,10 @@ public class SelectQueryBuilder {
     }
 
     public static class Builder {
-        private Dialect dialect;
         private EntityMetadata entity;
         private WhereQueryBuilder whereQueryBuilder;
 
         private Builder() {
-        }
-
-        public Builder dialect(Dialect dialect) {
-            this.dialect = dialect;
-            return this;
         }
 
         public Builder entity(Class<?> clazz) {
@@ -58,7 +49,7 @@ public class SelectQueryBuilder {
         }
 
         public SelectQueryBuilder build() {
-            return new SelectQueryBuilder(dialect, entity, whereQueryBuilder);
+            return new SelectQueryBuilder(entity, whereQueryBuilder);
         }
     }
 

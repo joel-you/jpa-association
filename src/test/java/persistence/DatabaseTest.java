@@ -21,19 +21,12 @@ import java.sql.SQLException;
 public class DatabaseTest {
 
     protected final Dialect DIALECT = new H2Dialect();
-
     protected JdbcTemplate jdbcTemplate;
-
     protected EntityManager entityManager;
-
     protected EntityPersister entityPersister;
-
     protected DatabaseServer databaseServer;
-
     protected SimplePersistenceContext persistenceContext;
-
     protected CustomJpaRepository<Person, Long> customJpaRepository;
-
 
     @BeforeEach
     void setUp() {
@@ -52,9 +45,9 @@ public class DatabaseTest {
         }
 
         persistenceContext = new SimplePersistenceContext();
-        entityManager = new SimpleEntityManager(jdbcTemplate, persistenceContext, DIALECT);
+        entityManager = new SimpleEntityManager(jdbcTemplate, persistenceContext);
         customJpaRepository = new CustomJpaRepository<>(entityManager);
-        entityPersister = new EntityPersister(jdbcTemplate, DIALECT);
+        entityPersister = new EntityPersister(jdbcTemplate);
 
         jdbcTemplate.execute(createQueryBuilder.generateQuery());
     }
@@ -69,5 +62,4 @@ public class DatabaseTest {
         jdbcTemplate.execute(dropQueryBuilder.generateQuery());
         databaseServer.stop();
     }
-
 }

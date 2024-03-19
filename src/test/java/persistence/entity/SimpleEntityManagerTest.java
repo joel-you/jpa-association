@@ -126,5 +126,4 @@ class SimpleEntityManagerTest extends DatabaseTest {
         assertThatThrownBy(() -> entityManager.remove(findPerson))
                 .isExactlyInstanceOf(IllegalStateException.class);
     }
-
 }

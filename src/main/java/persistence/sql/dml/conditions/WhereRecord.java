@@ -3,6 +3,7 @@ package persistence.sql.dml.conditions;
 import java.util.Objects;
 
 public class WhereRecord {
+
     private final String name;
     private final String operator;
     private final Object value;

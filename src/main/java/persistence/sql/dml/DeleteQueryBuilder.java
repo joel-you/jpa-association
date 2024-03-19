@@ -1,6 +1,5 @@
 package persistence.sql.dml;
 
-import persistence.sql.dialect.Dialect;
 import persistence.sql.dml.conditions.WhereRecord;
 import persistence.sql.metadata.EntityMetadata;
 
@@ -12,12 +11,10 @@ public class DeleteQueryBuilder {
 
     public static final String DELETE_TEMPLATE = "DELETE FROM %s";
     public static final String WHERE_DELIMITER = " ";
-    private final Dialect dialect;
     private final EntityMetadata entity;
     private final WhereQueryBuilder whereQueryBuilder;
 
-    private DeleteQueryBuilder(Dialect dialect, EntityMetadata entity, WhereQueryBuilder whereQueryBuilder) {
-        this.dialect = dialect;
+    private DeleteQueryBuilder(EntityMetadata entity, WhereQueryBuilder whereQueryBuilder) {
         this.entity = entity;
         this.whereQueryBuilder = whereQueryBuilder;
     }
@@ -27,16 +24,10 @@ public class DeleteQueryBuilder {
     }
 
     public static class Builder {
-        private Dialect dialect;
         private EntityMetadata entity;
         private WhereQueryBuilder whereQueryBuilder;
 
         private Builder() {
-        }
-
-        public Builder dialect(Dialect dialect) {
-            this.dialect = dialect;
-            return this;
         }
 
         public Builder entity(Object entity) {
@@ -61,7 +52,7 @@ public class DeleteQueryBuilder {
         }
 
         public DeleteQueryBuilder build() {
-            return new DeleteQueryBuilder(dialect, entity, whereQueryBuilder);
+            return new DeleteQueryBuilder(entity, whereQueryBuilder);
         }
     }
 

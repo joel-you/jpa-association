@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class WhereConditions {
+
     public static final String AND = " AND ";
     private final List<WhereCondition> whereConditions;
 

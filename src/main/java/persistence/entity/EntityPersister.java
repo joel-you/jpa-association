@@ -3,7 +3,6 @@ package persistence.entity;
 import jdbc.JdbcTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import persistence.sql.dialect.Dialect;
 import persistence.sql.dml.DeleteQueryBuilder;
 import persistence.sql.dml.InsertQueryBuilder;
 import persistence.sql.dml.UpdateQueryBuilder;
@@ -11,16 +10,13 @@ import persistence.sql.dml.UpdateQueryBuilder;
 public class EntityPersister {
     private static final Logger logger = LoggerFactory.getLogger(EntityPersister.class);
     private final JdbcTemplate jdbcTemplate;
-    private final Dialect dialect;
 
-    public EntityPersister(JdbcTemplate jdbcTemplate, Dialect dialect) {
+    public EntityPersister(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-        this.dialect = dialect;
     }
 
     public void update(Object entity) {
         UpdateQueryBuilder updateQueryBuilder = UpdateQueryBuilder.builder()
-                .dialect(dialect)
                 .entity(entity)
                 .build();
 
@@ -32,7 +28,6 @@ public class EntityPersister {
 
     public Object insert(Object entity) {
         InsertQueryBuilder insertQueryBuilder = InsertQueryBuilder.builder()
-                .dialect(dialect)
                 .entity(entity)
                 .build();
 
@@ -44,7 +39,6 @@ public class EntityPersister {
 
     public void delete(Object entity) {
         DeleteQueryBuilder deleteQueryBuilder = DeleteQueryBuilder.builder()
-                .dialect(dialect)
                 .entity(entity)
                 .build();
 

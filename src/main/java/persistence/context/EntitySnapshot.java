@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class EntitySnapshot {
+
     private final Map<ColumnMetadata, Object> snapShotColumns;
 
     private EntitySnapshot(Map<ColumnMetadata, Object> snapShotColumns) {

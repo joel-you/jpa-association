@@ -3,6 +3,7 @@ package persistence.entity;
 import java.util.Objects;
 
 public class EntityKey {
+
     private final Class<?> clazz;
     private final Object id;
 

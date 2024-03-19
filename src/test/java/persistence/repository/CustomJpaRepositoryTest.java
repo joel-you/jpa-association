@@ -48,5 +48,4 @@ class CustomJpaRepositoryTest extends DatabaseTest {
                 () -> assertThat(resultPerson.getEmail()).isEqualTo(savedPerson.getEmail())
         );
     }
-
 }

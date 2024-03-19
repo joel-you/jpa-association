@@ -3,6 +3,7 @@ package persistence.sql.dml.conditions;
 import persistence.sql.metadata.ColumnMetadata;
 
 public class WhereCondition {
+
     public static final String WHERE_CLAUSE_TEMPLATE = "%s %s %s";
     private final ColumnMetadata columnMetadata;
     private final String operator;
