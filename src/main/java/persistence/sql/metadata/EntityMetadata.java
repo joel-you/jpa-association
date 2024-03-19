@@ -62,6 +62,17 @@ public class EntityMetadata {
                 .collect(Collectors.toList());
     }
 
+    private static String convertCamelCaseToSnakeCase(String input) {
+        String regex = "([a-z])([A-Z]+)";
+        String replacement = "$1_$2";
+
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(input);
+        String result = matcher.replaceAll(replacement);
+
+        return result.toLowerCase();
+    }
+
     public Class<?> getClazz() {
         return clazz;
     }
@@ -80,16 +91,5 @@ public class EntityMetadata {
 
     public PrimaryKeyMetadata getPrimaryKey() {
         return primaryKey;
-    }
-
-    private static String convertCamelCaseToSnakeCase(String input) {
-        String regex = "([a-z])([A-Z]+)";
-        String replacement = "$1_$2";
-
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(input);
-        String result = matcher.replaceAll(replacement);
-
-        return result.toLowerCase();
     }
 }

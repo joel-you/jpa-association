@@ -24,6 +24,25 @@ public class CreateQueryBuilder {
         return new Builder();
     }
 
+    private String generateColumnsQuery() {
+        return entity.getColumns().stream()
+                .map(this::generateColumnQuery)
+                .collect(Collectors.joining(DELIMITER));
+    }
+
+    private String generateColumnQuery(ColumnMetadata column) {
+        return String.join(COLUMN_DEFINITION_DELIMITER, column.getName(), dialect.build(column));
+    }
+
+    public String generateQuery() {
+        return String.format(CREATE_TABLE_TEMPLATE,
+                entity.getName(),
+                String.join(DELIMITER,
+                        generateColumnsQuery(),
+                        String.format(PRIMARY_KEY_TEMPLATE, entity.getPrimaryKey().getName()))
+        );
+    }
+
     public static class Builder {
         private Dialect dialect;
         private EntityMetadata entity;
@@ -44,24 +63,5 @@ public class CreateQueryBuilder {
         public CreateQueryBuilder build() {
             return new CreateQueryBuilder(dialect, entity);
         }
-    }
-
-    private String generateColumnsQuery() {
-        return entity.getColumns().stream()
-                .map(this::generateColumnQuery)
-                .collect(Collectors.joining(DELIMITER));
-    }
-
-    private String generateColumnQuery(ColumnMetadata column) {
-        return String.join(COLUMN_DEFINITION_DELIMITER, column.getName(), dialect.build(column));
-    }
-
-    public String generateQuery() {
-        return String.format(CREATE_TABLE_TEMPLATE,
-                entity.getName(),
-                String.join(DELIMITER,
-                        generateColumnsQuery(),
-                        String.format(PRIMARY_KEY_TEMPLATE, entity.getPrimaryKey().getName()))
-        );
     }
 }

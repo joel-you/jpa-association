@@ -18,6 +18,10 @@ public class DropQueryBuilder {
         return new Builder();
     }
 
+    public String generateQuery() {
+        return String.format(DROP_TABLE_TEMPLATE, entity.getName());
+    }
+
     public static class Builder {
         private Dialect dialect;
         private EntityMetadata entity;
@@ -38,9 +42,5 @@ public class DropQueryBuilder {
         public DropQueryBuilder build() {
             return new DropQueryBuilder(dialect, entity);
         }
-    }
-
-    public String generateQuery() {
-        return String.format(DROP_TABLE_TEMPLATE, entity.getName());
     }
 }

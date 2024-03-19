@@ -58,6 +58,17 @@ public class ColumnMetadata {
         return convertCamelCaseToSnakeCase(field.getName());
     }
 
+    private static String convertCamelCaseToSnakeCase(String input) {
+        String regex = "([a-z])([A-Z]+)";
+        String replacement = "$1_$2";
+
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(input);
+        String result = matcher.replaceAll(replacement);
+
+        return result.toLowerCase();
+    }
+
     public String getName() {
         return name;
     }
@@ -76,16 +87,5 @@ public class ColumnMetadata {
 
     public boolean isNotNull() {
         return Objects.nonNull(value);
-    }
-
-    private static String convertCamelCaseToSnakeCase(String input) {
-        String regex = "([a-z])([A-Z]+)";
-        String replacement = "$1_$2";
-
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(input);
-        String result = matcher.replaceAll(replacement);
-
-        return result.toLowerCase();
     }
 }

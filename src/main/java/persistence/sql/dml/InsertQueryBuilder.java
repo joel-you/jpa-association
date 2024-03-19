@@ -33,6 +33,18 @@ public class InsertQueryBuilder {
                 .collect(Collectors.joining(DELIMITER));
     }
 
+    private String generateColumnValue(Object object) {
+        if (object instanceof String) {
+            return String.format("'%s'", object);
+        } else {
+            return String.valueOf(object);
+        }
+    }
+
+    public String generateQuery() {
+        return String.format(INSERT_TEMPLATE, entity.getName(), columnsClause(entity.getColumns()), valueClause());
+    }
+
     public static class Builder {
         private EntityMetadata entity;
 
@@ -47,17 +59,5 @@ public class InsertQueryBuilder {
         public InsertQueryBuilder build() {
             return new InsertQueryBuilder(entity);
         }
-    }
-
-    private String generateColumnValue(Object object) {
-        if (object instanceof String) {
-            return String.format("'%s'", object);
-        } else {
-            return String.valueOf(object);
-        }
-    }
-
-    public String generateQuery() {
-        return String.format(INSERT_TEMPLATE, entity.getName(), columnsClause(entity.getColumns()), valueClause());
     }
 }

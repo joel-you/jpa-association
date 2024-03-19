@@ -25,6 +25,17 @@ public class SelectQueryBuilder {
         return new Builder();
     }
 
+    private String columnsClause(List<ColumnMetadata> columns) {
+        return columns.stream()
+                .map(ColumnMetadata::getName)
+                .collect(Collectors.joining(DELIMITER));
+    }
+
+    public String generateQuery() {
+        return String.format(SELECT_TEMPLATE, columnsClause(entity.getColumns()),
+                Objects.isNull(whereQueryBuilder) ? entity.getName() : String.join(WHERE_DELIMITER, entity.getName(), whereQueryBuilder.generateWhereClausesQuery()));
+    }
+
     public static class Builder {
         private EntityMetadata entity;
         private WhereQueryBuilder whereQueryBuilder;
@@ -51,16 +62,5 @@ public class SelectQueryBuilder {
         public SelectQueryBuilder build() {
             return new SelectQueryBuilder(entity, whereQueryBuilder);
         }
-    }
-
-    private String columnsClause(List<ColumnMetadata> columns) {
-        return columns.stream()
-                .map(ColumnMetadata::getName)
-                .collect(Collectors.joining(DELIMITER));
-    }
-
-    public String generateQuery() {
-        return String.format(SELECT_TEMPLATE, columnsClause(entity.getColumns()),
-                Objects.isNull(whereQueryBuilder) ? entity.getName() : String.join(WHERE_DELIMITER, entity.getName(), whereQueryBuilder.generateWhereClausesQuery()));
     }
 }

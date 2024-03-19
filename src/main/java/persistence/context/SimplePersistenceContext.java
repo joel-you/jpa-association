@@ -14,6 +14,12 @@ public class SimplePersistenceContext implements PersistenceContext {
     private final Map<EntityKey, EntitySnapshot> snapshots = new HashMap<>();
     private final Map<EntityKey, EntityEntry> entries = new HashMap<>();
 
+    private static void isReadOnly(EntityEntry entry) {
+        if (entry.isReadOnly()) {
+            throw new IllegalStateException("Entity is read-only");
+        }
+    }
+
     @Override
     public <T> T getEntity(Class<T> clazz, Object id) {
         EntityKey key = EntityKey.of(clazz, id);
@@ -75,12 +81,6 @@ public class SimplePersistenceContext implements PersistenceContext {
         snapshots.remove(key);
 
         entry.gone();
-    }
-
-    private static void isReadOnly(EntityEntry entry) {
-        if (entry.isReadOnly()) {
-            throw new IllegalStateException("Entity is read-only");
-        }
     }
 
     @Override

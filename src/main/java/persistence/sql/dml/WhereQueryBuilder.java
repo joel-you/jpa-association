@@ -23,6 +23,10 @@ public class WhereQueryBuilder {
         return new Builder();
     }
 
+    public String generateWhereClausesQuery() {
+        return String.format(WHERE_CLAUSE_TEMPLATE, whereConditions.generateWhereClausesQuery());
+    }
+
     public static class Builder {
         private WhereConditions whereConditions;
 
@@ -45,10 +49,6 @@ public class WhereQueryBuilder {
         public WhereQueryBuilder build() {
             return new WhereQueryBuilder(whereConditions);
         }
-    }
-
-    public String generateWhereClausesQuery() {
-        return String.format(WHERE_CLAUSE_TEMPLATE, whereConditions.generateWhereClausesQuery());
     }
 
 }

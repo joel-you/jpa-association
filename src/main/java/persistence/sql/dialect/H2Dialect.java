@@ -16,12 +16,6 @@ public class H2Dialect implements Dialect {
 
     public static final String TYPE_AND_CONSTRAINTS_DELIMITER = " ";
     public static final String COLUMN_DELIMITER = " ";
-
-    private final List<ColumnConstraintStrategy> strategies = List.of(
-            new NotNullConstraint(),
-            new GeneratedValueConstraint()
-    );
-
     private static final Map<Class<?>, String> COLUMN_TYPES = new HashMap<>();
 
     static {
@@ -29,6 +23,11 @@ public class H2Dialect implements Dialect {
         COLUMN_TYPES.put(String.class, "VARCHAR");
         COLUMN_TYPES.put(Integer.class, "INTEGER");
     }
+
+    private final List<ColumnConstraintStrategy> strategies = List.of(
+            new NotNullConstraint(),
+            new GeneratedValueConstraint()
+    );
 
     @Override
     public String build(ColumnMetadata column) {

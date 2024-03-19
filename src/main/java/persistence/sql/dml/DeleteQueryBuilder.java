@@ -23,6 +23,10 @@ public class DeleteQueryBuilder {
         return new Builder();
     }
 
+    public String generateQuery() {
+        return String.format(DELETE_TEMPLATE, Objects.isNull(whereQueryBuilder) ? entity.getName() : String.join(WHERE_DELIMITER, entity.getName(), whereQueryBuilder.generateWhereClausesQuery()));
+    }
+
     public static class Builder {
         private EntityMetadata entity;
         private WhereQueryBuilder whereQueryBuilder;
@@ -54,9 +58,5 @@ public class DeleteQueryBuilder {
         public DeleteQueryBuilder build() {
             return new DeleteQueryBuilder(entity, whereQueryBuilder);
         }
-    }
-
-    public String generateQuery() {
-        return String.format(DELETE_TEMPLATE, Objects.isNull(whereQueryBuilder) ? entity.getName() : String.join(WHERE_DELIMITER, entity.getName(), whereQueryBuilder.generateWhereClausesQuery()));
     }
 }

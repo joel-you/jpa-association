@@ -14,8 +14,8 @@ import static java.util.Optional.ofNullable;
 
 public class GeneratedValueConstraint implements ColumnConstraintStrategy {
 
-    private static final Map<GenerationType, String> GENERATION_TYPE_QUERY_MAP = new HashMap<>();
     public static final String EMPTY_GENERATED_VALUE = "";
+    private static final Map<GenerationType, String> GENERATION_TYPE_QUERY_MAP = new HashMap<>();
 
     static {
         GENERATION_TYPE_QUERY_MAP.put(GenerationType.IDENTITY, "AUTO_INCREMENT");

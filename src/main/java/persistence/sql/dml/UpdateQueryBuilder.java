@@ -25,6 +25,26 @@ public class UpdateQueryBuilder {
         return new Builder();
     }
 
+    private String setClause() {
+        return entity.getColumns().stream()
+                .filter(columnMetadata -> !entity.getPrimaryKey().getName().equals(columnMetadata.getName()))
+                .filter(ColumnMetadata::isNotNull)
+                .map(column -> column.getName() + " = " + generateColumnValue(column.getValue()))
+                .collect(Collectors.joining(DELIMITER));
+    }
+
+    private String generateColumnValue(Object object) {
+        if (object instanceof String) {
+            return String.format("'%s'", object);
+        } else {
+            return String.valueOf(object);
+        }
+    }
+
+    public String generateQuery() {
+        return String.format(UPDATE_TEMPLATE, entity.getName(), Objects.isNull(whereQueryBuilder) ? setClause() : String.join(WHERE_DELIMITER, setClause(), whereQueryBuilder.generateWhereClausesQuery()));
+    }
+
     public static class Builder {
         private EntityMetadata entity;
         private WhereQueryBuilder whereQueryBuilder;
@@ -54,25 +74,5 @@ public class UpdateQueryBuilder {
         public UpdateQueryBuilder build() {
             return new UpdateQueryBuilder(entity, whereQueryBuilder);
         }
-    }
-
-    private String setClause() {
-        return entity.getColumns().stream()
-                .filter(columnMetadata -> !entity.getPrimaryKey().getName().equals(columnMetadata.getName()))
-                .filter(ColumnMetadata::isNotNull)
-                .map(column -> column.getName() + " = " + generateColumnValue(column.getValue()))
-                .collect(Collectors.joining(DELIMITER));
-    }
-
-    private String generateColumnValue(Object object) {
-        if (object instanceof String) {
-            return String.format("'%s'", object);
-        } else {
-            return String.valueOf(object);
-        }
-    }
-
-    public String generateQuery() {
-        return String.format(UPDATE_TEMPLATE, entity.getName(), Objects.isNull(whereQueryBuilder) ? setClause() : String.join(WHERE_DELIMITER, setClause(), whereQueryBuilder.generateWhereClausesQuery()));
     }
 }
