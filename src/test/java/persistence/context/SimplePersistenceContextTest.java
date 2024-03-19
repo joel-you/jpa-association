@@ -1,13 +1,13 @@
 package persistence.context;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 import domain.Person;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import persistence.entity.EntityStatus;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class SimplePersistenceContextTest {
 
@@ -55,6 +55,6 @@ class SimplePersistenceContextTest {
         // when
         // then
         assertThatThrownBy(() -> persistenceContext.removeEntity(person))
-                .isInstanceOf(IllegalStateException.class);
+            .isInstanceOf(IllegalStateException.class);
     }
 }

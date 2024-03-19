@@ -3,6 +3,7 @@ package persistence;
 import database.DatabaseServer;
 import database.H2;
 import domain.Person;
+import java.sql.SQLException;
 import jdbc.JdbcTemplate;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,8 +16,6 @@ import persistence.sql.ddl.CreateQueryBuilder;
 import persistence.sql.ddl.DropQueryBuilder;
 import persistence.sql.dialect.Dialect;
 import persistence.sql.dialect.H2Dialect;
-
-import java.sql.SQLException;
 
 public class DatabaseTest {
 
@@ -31,9 +30,9 @@ public class DatabaseTest {
     @BeforeEach
     void setUp() {
         CreateQueryBuilder createQueryBuilder = CreateQueryBuilder.builder()
-                .dialect(DIALECT)
-                .entity(Person.class)
-                .build();
+            .dialect(DIALECT)
+            .entity(Person.class)
+            .build();
 
         try {
             databaseServer = new H2();
@@ -55,8 +54,8 @@ public class DatabaseTest {
     @AfterEach
     void tearDown() {
         DropQueryBuilder dropQueryBuilder = DropQueryBuilder.builder()
-                .entity(Person.class)
-                .build();
+            .entity(Person.class)
+            .build();
 
         jdbcTemplate.execute(dropQueryBuilder.generateQuery());
         databaseServer.stop();

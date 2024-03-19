@@ -1,12 +1,11 @@
 package persistence.entity;
 
+import java.util.Objects;
 import jdbc.JdbcTemplate;
 import persistence.context.EntitySnapshot;
 import persistence.context.PersistenceContext;
 import persistence.sql.metadata.EntityMetadata;
 import persistence.sql.metadata.PrimaryKeyMetadata;
-
-import java.util.Objects;
 
 public class SimpleEntityManager implements EntityManager {
 
@@ -38,7 +37,8 @@ public class SimpleEntityManager implements EntityManager {
     public <T> T persist(T entity) {
         Object id = entityPersister.insert(entity);
 
-        PrimaryKeyMetadata primaryKey = EntityMetadata.of(entity.getClass(), entity).getPrimaryKey();
+        PrimaryKeyMetadata primaryKey = EntityMetadata.of(entity.getClass(), entity)
+            .getPrimaryKey();
         primaryKey.setValue(entity, id);
 
         cachedEntity(id, entity);

@@ -1,12 +1,12 @@
 package persistence.entity;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 import domain.Person;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import persistence.DatabaseTest;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class EntityPersisterTest extends DatabaseTest {
 
@@ -54,6 +54,7 @@ public class EntityPersisterTest extends DatabaseTest {
         entityManager.remove(person);
 
         // then
-        assertThatThrownBy(() -> entityManager.find(Person.class, 1L)).isInstanceOf(RuntimeException.class);
+        assertThatThrownBy(() -> entityManager.find(Person.class, 1L)).isInstanceOf(
+            RuntimeException.class);
     }
 }

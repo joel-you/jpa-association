@@ -1,9 +1,8 @@
 package persistence.repository;
 
+import java.util.Objects;
 import persistence.entity.EntityManager;
 import persistence.sql.metadata.EntityMetadata;
-
-import java.util.Objects;
 
 public class CustomJpaRepository<T, ID> {
 

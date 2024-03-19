@@ -18,7 +18,7 @@ public class WhereConditions {
 
     public String generateWhereClausesQuery() {
         return whereConditions.stream()
-                .map(WhereCondition::toSqlCondition)
-                .collect(Collectors.joining(AND));
+            .map(WhereCondition::toSqlCondition)
+            .collect(Collectors.joining(AND));
     }
 }

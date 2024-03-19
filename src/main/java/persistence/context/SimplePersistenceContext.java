@@ -1,12 +1,11 @@
 package persistence.context;
 
-import persistence.entity.EntityEntry;
-import persistence.entity.EntityKey;
-import persistence.sql.metadata.EntityMetadata;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import persistence.entity.EntityEntry;
+import persistence.entity.EntityKey;
+import persistence.sql.metadata.EntityMetadata;
 
 public class SimplePersistenceContext implements PersistenceContext {
 
@@ -33,7 +32,6 @@ public class SimplePersistenceContext implements PersistenceContext {
             throw new IllegalStateException("Entity has been removed");
         }
 
-
         return clazz.cast(firstLevelCache.get(key));
     }
 
@@ -45,7 +43,6 @@ public class SimplePersistenceContext implements PersistenceContext {
 
         EntityKey key = EntityKey.of(entity.getClass(), id);
         EntityEntry entry = entries.get(key);
-
 
         if (Objects.isNull(entry)) {
             entry = EntityEntry.loading();
@@ -86,7 +83,7 @@ public class SimplePersistenceContext implements PersistenceContext {
     @Override
     public EntitySnapshot getDatabaseSnapshot(Object id, Object entity) {
         return snapshots.computeIfAbsent(
-                EntityKey.of(entity.getClass(), id), key -> EntitySnapshot.from(entity));
+            EntityKey.of(entity.getClass(), id), key -> EntitySnapshot.from(entity));
     }
 
     @Override

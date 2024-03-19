@@ -1,12 +1,11 @@
 package persistence.sql.dml;
 
-import persistence.sql.dml.conditions.WhereRecord;
-import persistence.sql.metadata.ColumnMetadata;
-import persistence.sql.metadata.EntityMetadata;
-
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import persistence.sql.dml.conditions.WhereRecord;
+import persistence.sql.metadata.ColumnMetadata;
+import persistence.sql.metadata.EntityMetadata;
 
 public class UpdateQueryBuilder {
 
@@ -27,10 +26,11 @@ public class UpdateQueryBuilder {
 
     private String setClause() {
         return entity.getColumns().stream()
-                .filter(columnMetadata -> !entity.getPrimaryKey().getName().equals(columnMetadata.getName()))
-                .filter(ColumnMetadata::isNotNull)
-                .map(column -> column.getName() + " = " + generateColumnValue(column.getValue()))
-                .collect(Collectors.joining(DELIMITER));
+            .filter(columnMetadata -> !entity.getPrimaryKey().getName()
+                .equals(columnMetadata.getName()))
+            .filter(ColumnMetadata::isNotNull)
+            .map(column -> column.getName() + " = " + generateColumnValue(column.getValue()))
+            .collect(Collectors.joining(DELIMITER));
     }
 
     private String generateColumnValue(Object object) {
@@ -42,10 +42,14 @@ public class UpdateQueryBuilder {
     }
 
     public String generateQuery() {
-        return String.format(UPDATE_TEMPLATE, entity.getName(), Objects.isNull(whereQueryBuilder) ? setClause() : String.join(WHERE_DELIMITER, setClause(), whereQueryBuilder.generateWhereClausesQuery()));
+        return String.format(UPDATE_TEMPLATE, entity.getName(),
+            Objects.isNull(whereQueryBuilder) ? setClause()
+                : String.join(WHERE_DELIMITER, setClause(),
+                    whereQueryBuilder.generateWhereClausesQuery()));
     }
 
     public static class Builder {
+
         private EntityMetadata entity;
         private WhereQueryBuilder whereQueryBuilder;
 
@@ -55,8 +59,8 @@ public class UpdateQueryBuilder {
         public Builder entity(Object object) {
             this.entity = EntityMetadata.of(object.getClass(), object);
             this.whereQueryBuilder = WhereQueryBuilder.builder()
-                    .whereConditions(entity)
-                    .build();
+                .whereConditions(entity)
+                .build();
             return this;
         }
 
@@ -66,8 +70,8 @@ public class UpdateQueryBuilder {
             }
 
             this.whereQueryBuilder = WhereQueryBuilder.builder()
-                    .whereConditions(entity.getColumnsMetadata(), whereRecords)
-                    .build();
+                .whereConditions(entity.getColumnsMetadata(), whereRecords)
+                .build();
             return this;
         }
 

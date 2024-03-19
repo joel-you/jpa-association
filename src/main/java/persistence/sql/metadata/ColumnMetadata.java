@@ -25,11 +25,13 @@ public class ColumnMetadata {
     }
 
     public static ColumnMetadata of(Field field, Object entity) {
-        return new ColumnMetadata(generateColumnName(field), generateColumnValue(field, entity), field.getType(), generateColumnAnnotations(field.getDeclaredAnnotations()));
+        return new ColumnMetadata(generateColumnName(field), generateColumnValue(field, entity),
+            field.getType(), generateColumnAnnotations(field.getDeclaredAnnotations()));
     }
 
     public static ColumnMetadata of(Field field) {
-        return new ColumnMetadata(generateColumnName(field), null, field.getType(), generateColumnAnnotations(field.getDeclaredAnnotations()));
+        return new ColumnMetadata(generateColumnName(field), null, field.getType(),
+            generateColumnAnnotations(field.getDeclaredAnnotations()));
     }
 
     private static Object generateColumnValue(Field field, Object entity) {
@@ -44,12 +46,13 @@ public class ColumnMetadata {
 
     private static List<Annotation> generateColumnAnnotations(Annotation[] annotations) {
         return Arrays.stream(annotations)
-                .filter(annotation -> !annotation.annotationType().equals(Transient.class))
-                .collect(Collectors.toList());
+            .filter(annotation -> !annotation.annotationType().equals(Transient.class))
+            .collect(Collectors.toList());
     }
 
     private static String generateColumnName(Field field) {
-        jakarta.persistence.Column annotation = field.getDeclaredAnnotation(jakarta.persistence.Column.class);
+        jakarta.persistence.Column annotation = field.getDeclaredAnnotation(
+            jakarta.persistence.Column.class);
 
         if (Objects.nonNull(annotation) && !annotation.name().isEmpty()) {
             return annotation.name();

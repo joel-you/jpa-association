@@ -20,6 +20,7 @@ public class DropQueryBuilder {
     }
 
     public static class Builder {
+
         private EntityMetadata entity;
 
         private Builder() {

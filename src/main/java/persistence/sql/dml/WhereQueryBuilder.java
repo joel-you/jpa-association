@@ -1,14 +1,13 @@
 package persistence.sql.dml;
 
+import java.util.List;
+import java.util.stream.Collectors;
 import persistence.sql.dml.conditions.WhereCondition;
 import persistence.sql.dml.conditions.WhereConditions;
 import persistence.sql.dml.conditions.WhereRecord;
 import persistence.sql.metadata.ColumnMetadata;
 import persistence.sql.metadata.ColumnsMetadata;
 import persistence.sql.metadata.EntityMetadata;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class WhereQueryBuilder {
 
@@ -28,6 +27,7 @@ public class WhereQueryBuilder {
     }
 
     public static class Builder {
+
         private WhereConditions whereConditions;
 
         private Builder() {
@@ -35,14 +35,17 @@ public class WhereQueryBuilder {
 
         public Builder whereConditions(ColumnsMetadata columns, List<WhereRecord> whereRecords) {
             this.whereConditions = WhereConditions.of(whereRecords.stream()
-                    .map(whereRecord -> WhereCondition.of(columns.getColumn(whereRecord.getName()), whereRecord.getOperator(), whereRecord.getValue()))
-                    .collect(Collectors.toList()));
+                .map(whereRecord -> WhereCondition.of(columns.getColumn(whereRecord.getName()),
+                    whereRecord.getOperator(), whereRecord.getValue()))
+                .collect(Collectors.toList()));
             return this;
         }
 
         public Builder whereConditions(EntityMetadata entityMetadata) {
-            ColumnMetadata columnMetadata = entityMetadata.getColumnsMetadata().getColumn(entityMetadata.getPrimaryKey().getName());
-            this.whereConditions = WhereConditions.of(List.of(WhereCondition.of(columnMetadata, "=", columnMetadata.getValue())));
+            ColumnMetadata columnMetadata = entityMetadata.getColumnsMetadata()
+                .getColumn(entityMetadata.getPrimaryKey().getName());
+            this.whereConditions = WhereConditions.of(
+                List.of(WhereCondition.of(columnMetadata, "=", columnMetadata.getValue())));
             return this;
         }
 

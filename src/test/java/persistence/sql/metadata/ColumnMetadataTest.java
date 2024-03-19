@@ -1,16 +1,15 @@
 package persistence.sql.metadata;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import domain.Person;
 import jakarta.persistence.Column;
 import jakarta.persistence.Transient;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-
 import java.lang.annotation.Annotation;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 
 class ColumnMetadataTest {
@@ -23,12 +22,13 @@ class ColumnMetadataTest {
 
         // when
         List<Annotation> annotations = columns.stream()
-                .flatMap(column -> column.getAnnotations().stream())
-                .filter(annotation -> !annotation.annotationType().equals(Transient.class))
-                .collect(Collectors.toList());
+            .flatMap(column -> column.getAnnotations().stream())
+            .filter(annotation -> !annotation.annotationType().equals(Transient.class))
+            .collect(Collectors.toList());
 
         // then
-        assertThat(annotations).filteredOn(annotation -> annotation.annotationType().equals(Transient.class)).isEmpty();
+        assertThat(annotations).filteredOn(
+            annotation -> annotation.annotationType().equals(Transient.class)).isEmpty();
     }
 
     @Test
@@ -38,13 +38,13 @@ class ColumnMetadataTest {
 
         // when
         List<ColumnMetadata> existsColumnAnnotationColumns = columns.stream()
-                .filter(columnMetadata -> columnMetadata.getAnnotations().stream()
-                        .anyMatch(annotation -> annotation.annotationType().equals(Column.class)))
-                .collect(Collectors.toList());
+            .filter(columnMetadata -> columnMetadata.getAnnotations().stream()
+                .anyMatch(annotation -> annotation.annotationType().equals(Column.class)))
+            .collect(Collectors.toList());
 
         // then
         assertThat(existsColumnAnnotationColumns).extracting(ColumnMetadata::getName)
-                .contains("nick_name", "old", "email");
+            .contains("nick_name", "old", "email");
     }
 
 }

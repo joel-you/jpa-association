@@ -1,7 +1,12 @@
 package domain;
 
-import jakarta.persistence.*;
-
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import java.util.Objects;
 
 @Table(name = "users")
@@ -64,10 +69,16 @@ public class Person {
 
     @Override
     public boolean equals(Object object) {
-        if (this == object) return true;
-        if (object == null || getClass() != object.getClass()) return false;
+        if (this == object) {
+            return true;
+        }
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
         Person person = (Person) object;
-        return Objects.equals(id, person.id) && Objects.equals(name, person.name) && Objects.equals(age, person.age) && Objects.equals(email, person.email) && Objects.equals(index, person.index);
+        return Objects.equals(id, person.id) && Objects.equals(name, person.name) && Objects.equals(
+            age, person.age) && Objects.equals(email, person.email) && Objects.equals(index,
+            person.index);
     }
 
     @Override

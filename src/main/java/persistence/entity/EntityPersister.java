@@ -8,6 +8,7 @@ import persistence.sql.dml.InsertQueryBuilder;
 import persistence.sql.dml.UpdateQueryBuilder;
 
 public class EntityPersister {
+
     private static final Logger logger = LoggerFactory.getLogger(EntityPersister.class);
     private final JdbcTemplate jdbcTemplate;
 
@@ -17,8 +18,8 @@ public class EntityPersister {
 
     public void update(Object entity) {
         UpdateQueryBuilder updateQueryBuilder = UpdateQueryBuilder.builder()
-                .entity(entity)
-                .build();
+            .entity(entity)
+            .build();
 
         String updateQuery = updateQueryBuilder.generateQuery();
         logger.debug("update query: {}", updateQuery);
@@ -28,8 +29,8 @@ public class EntityPersister {
 
     public Object insert(Object entity) {
         InsertQueryBuilder insertQueryBuilder = InsertQueryBuilder.builder()
-                .entity(entity)
-                .build();
+            .entity(entity)
+            .build();
 
         String insertQuery = insertQueryBuilder.generateQuery();
         logger.debug("insert query: {}", insertQuery);
@@ -39,8 +40,8 @@ public class EntityPersister {
 
     public void delete(Object entity) {
         DeleteQueryBuilder deleteQueryBuilder = DeleteQueryBuilder.builder()
-                .entity(entity)
-                .build();
+            .entity(entity)
+            .build();
 
         String deleteQuery = deleteQueryBuilder.generateQuery();
         logger.debug("delete query: {}", deleteQuery);

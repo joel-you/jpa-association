@@ -1,10 +1,9 @@
 package persistence.sql.dml;
 
-import persistence.sql.dml.conditions.WhereRecord;
-import persistence.sql.metadata.EntityMetadata;
-
 import java.util.List;
 import java.util.Objects;
+import persistence.sql.dml.conditions.WhereRecord;
+import persistence.sql.metadata.EntityMetadata;
 
 
 public class DeleteQueryBuilder {
@@ -24,10 +23,13 @@ public class DeleteQueryBuilder {
     }
 
     public String generateQuery() {
-        return String.format(DELETE_TEMPLATE, Objects.isNull(whereQueryBuilder) ? entity.getName() : String.join(WHERE_DELIMITER, entity.getName(), whereQueryBuilder.generateWhereClausesQuery()));
+        return String.format(DELETE_TEMPLATE, Objects.isNull(whereQueryBuilder) ? entity.getName()
+            : String.join(WHERE_DELIMITER, entity.getName(),
+                whereQueryBuilder.generateWhereClausesQuery()));
     }
 
     public static class Builder {
+
         private EntityMetadata entity;
         private WhereQueryBuilder whereQueryBuilder;
 
@@ -38,8 +40,8 @@ public class DeleteQueryBuilder {
             this.entity = EntityMetadata.of(entity.getClass(), entity);
             if (Objects.nonNull(this.entity.getPrimaryKey().getValue())) {
                 this.whereQueryBuilder = WhereQueryBuilder.builder()
-                        .whereConditions(this.entity)
-                        .build();
+                    .whereConditions(this.entity)
+                    .build();
             }
             return this;
         }
@@ -50,8 +52,8 @@ public class DeleteQueryBuilder {
             }
 
             this.whereQueryBuilder = WhereQueryBuilder.builder()
-                    .whereConditions(entity.getColumnsMetadata(), whereRecords)
-                    .build();
+                .whereConditions(entity.getColumnsMetadata(), whereRecords)
+                .build();
             return this;
         }
 

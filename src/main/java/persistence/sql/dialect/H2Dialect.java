@@ -1,16 +1,15 @@
 package persistence.sql.dialect;
 
-import persistence.sql.dialect.constraint.strategy.ColumnConstraintStrategy;
-import persistence.sql.dialect.constraint.strategy.constraint.GeneratedValueConstraint;
-import persistence.sql.dialect.constraint.strategy.constraint.NotNullConstraint;
-import persistence.sql.metadata.ColumnMetadata;
+import static java.util.Optional.ofNullable;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
-import static java.util.Optional.ofNullable;
+import persistence.sql.dialect.constraint.strategy.ColumnConstraintStrategy;
+import persistence.sql.dialect.constraint.strategy.constraint.GeneratedValueConstraint;
+import persistence.sql.dialect.constraint.strategy.constraint.NotNullConstraint;
+import persistence.sql.metadata.ColumnMetadata;
 
 public class H2Dialect implements Dialect {
 
@@ -25,23 +24,25 @@ public class H2Dialect implements Dialect {
     }
 
     private final List<ColumnConstraintStrategy> strategies = List.of(
-            new NotNullConstraint(),
-            new GeneratedValueConstraint()
+        new NotNullConstraint(),
+        new GeneratedValueConstraint()
     );
 
     @Override
     public String build(ColumnMetadata column) {
         String constraints = strategies.stream()
-                .map(strategy -> strategy.generateConstraints(column.getAnnotations()))
-                .filter(constraint -> !constraint.trim().isEmpty())
-                .collect(Collectors.joining(COLUMN_DELIMITER));
+            .map(strategy -> strategy.generateConstraints(column.getAnnotations()))
+            .filter(constraint -> !constraint.trim().isEmpty())
+            .collect(Collectors.joining(COLUMN_DELIMITER));
 
         return constraints.isBlank() ?
-                generateColumnType(column.getType()) : String.join(TYPE_AND_CONSTRAINTS_DELIMITER, generateColumnType(column.getType()), constraints);
+            generateColumnType(column.getType())
+            : String.join(TYPE_AND_CONSTRAINTS_DELIMITER, generateColumnType(column.getType()),
+                constraints);
     }
 
     private String generateColumnType(Class<?> clazz) {
         return ofNullable(COLUMN_TYPES.get(clazz))
-                .orElseThrow(() -> new IllegalArgumentException("This type is not supported."));
+            .orElseThrow(() -> new IllegalArgumentException("This type is not supported."));
     }
 }

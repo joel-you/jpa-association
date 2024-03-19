@@ -1,13 +1,12 @@
 package persistence.sql.dml;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import domain.Person;
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import persistence.sql.dml.conditions.WhereRecord;
-
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 class UpdateQueryBuilderTest {
 
@@ -18,14 +17,15 @@ class UpdateQueryBuilderTest {
         Person person = Person.of(1L, "crong", 35, "test@123.com");
 
         UpdateQueryBuilder updateQueryBuilder = UpdateQueryBuilder.builder()
-                .entity(person)
-                .where(List.of(WhereRecord.of("id", "=", person.getId())))
-                .build();
+            .entity(person)
+            .where(List.of(WhereRecord.of("id", "=", person.getId())))
+            .build();
 
         // when
         String updatedQuery = updateQueryBuilder.generateQuery();
 
         // then
-        assertThat(updatedQuery).isEqualTo("UPDATE users SET nick_name = 'crong', old = 35, email = 'test@123.com' WHERE id = 1");
+        assertThat(updatedQuery).isEqualTo(
+            "UPDATE users SET nick_name = 'crong', old = 35, email = 'test@123.com' WHERE id = 1");
     }
 }

@@ -1,9 +1,8 @@
 package persistence.association;
 
+import java.lang.reflect.Field;
 import persistence.sql.metadata.ColumnMetadata;
 import persistence.sql.metadata.EntityMetadata;
-
-import java.lang.reflect.Field;
 
 public class OneToManyAssociation {
 
@@ -11,7 +10,8 @@ public class OneToManyAssociation {
     private final ColumnMetadata columnMetadata;
     private final Field oneField;
 
-    private OneToManyAssociation(EntityMetadata entityMetadata, ColumnMetadata columnMetadata, Field oneField) {
+    private OneToManyAssociation(EntityMetadata entityMetadata, ColumnMetadata columnMetadata,
+        Field oneField) {
         this.entityMetadata = entityMetadata;
         this.columnMetadata = columnMetadata;
         this.oneField = oneField;

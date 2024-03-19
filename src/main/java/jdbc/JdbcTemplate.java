@@ -1,10 +1,15 @@
 package jdbc;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 public class JdbcTemplate {
+
     private final Connection connection;
 
     public JdbcTemplate(final Connection connection) {
@@ -20,7 +25,8 @@ public class JdbcTemplate {
     }
 
     public Object executeAndReturnObject(final String sql) {
-        try (final PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        try (final PreparedStatement statement = connection.prepareStatement(sql,
+            Statement.RETURN_GENERATED_KEYS)) {
             statement.executeUpdate();
 
             try (ResultSet generatedKeys = statement.getGeneratedKeys()) {

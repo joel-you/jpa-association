@@ -1,12 +1,12 @@
 package persistence.repository;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
+
 import domain.Person;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import persistence.DatabaseTest;
-
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.assertAll;
 
 class CustomJpaRepositoryTest extends DatabaseTest {
 
@@ -21,10 +21,10 @@ class CustomJpaRepositoryTest extends DatabaseTest {
 
         // then
         assertAll(
-                () -> assertThat(savedPerson.getId()).isEqualTo(1L),
-                () -> assertThat(savedPerson.getName()).isEqualTo(person.getName()),
-                () -> assertThat(savedPerson.getAge()).isEqualTo(person.getAge()),
-                () -> assertThat(savedPerson.getEmail()).isEqualTo(person.getEmail())
+            () -> assertThat(savedPerson.getId()).isEqualTo(1L),
+            () -> assertThat(savedPerson.getName()).isEqualTo(person.getName()),
+            () -> assertThat(savedPerson.getAge()).isEqualTo(person.getAge()),
+            () -> assertThat(savedPerson.getEmail()).isEqualTo(person.getEmail())
         );
     }
 
@@ -42,10 +42,10 @@ class CustomJpaRepositoryTest extends DatabaseTest {
 
         // then
         assertAll(
-                () -> assertThat(resultPerson.getId()).isEqualTo(savedPerson.getId()),
-                () -> assertThat(resultPerson.getName()).isEqualTo(newName),
-                () -> assertThat(resultPerson.getAge()).isEqualTo(savedPerson.getAge()),
-                () -> assertThat(resultPerson.getEmail()).isEqualTo(savedPerson.getEmail())
+            () -> assertThat(resultPerson.getId()).isEqualTo(savedPerson.getId()),
+            () -> assertThat(resultPerson.getName()).isEqualTo(newName),
+            () -> assertThat(resultPerson.getAge()).isEqualTo(savedPerson.getAge()),
+            () -> assertThat(resultPerson.getEmail()).isEqualTo(savedPerson.getEmail())
         );
     }
 }

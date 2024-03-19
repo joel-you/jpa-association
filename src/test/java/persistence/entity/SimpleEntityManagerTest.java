@@ -1,13 +1,13 @@
 package persistence.entity;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
+
 import domain.Person;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import persistence.DatabaseTest;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertAll;
 
 class SimpleEntityManagerTest extends DatabaseTest {
 
@@ -48,8 +48,8 @@ class SimpleEntityManagerTest extends DatabaseTest {
 
         // then
         assertAll(
-                () -> assertThat(updatePerson).isNotEqualTo(person),
-                () -> assertThat(updatePerson).isEqualTo(newPerson)
+            () -> assertThat(updatePerson).isNotEqualTo(person),
+            () -> assertThat(updatePerson).isEqualTo(newPerson)
         );
     }
 
@@ -64,7 +64,7 @@ class SimpleEntityManagerTest extends DatabaseTest {
 
         // then
         assertThatThrownBy(() -> entityManager.find(Person.class, 1L))
-                .isExactlyInstanceOf(IllegalStateException.class);
+            .isExactlyInstanceOf(IllegalStateException.class);
     }
 
     @Test
@@ -121,9 +121,9 @@ class SimpleEntityManagerTest extends DatabaseTest {
         // when
         // then
         assertThatThrownBy(() -> entityManager.merge(findPerson))
-                .isExactlyInstanceOf(IllegalStateException.class);
+            .isExactlyInstanceOf(IllegalStateException.class);
 
         assertThatThrownBy(() -> entityManager.remove(findPerson))
-                .isExactlyInstanceOf(IllegalStateException.class);
+            .isExactlyInstanceOf(IllegalStateException.class);
     }
 }

@@ -1,10 +1,9 @@
 package persistence.sql.ddl;
 
+import java.util.stream.Collectors;
 import persistence.sql.dialect.Dialect;
 import persistence.sql.metadata.ColumnMetadata;
 import persistence.sql.metadata.EntityMetadata;
-
-import java.util.stream.Collectors;
 
 public class CreateQueryBuilder {
 
@@ -26,8 +25,8 @@ public class CreateQueryBuilder {
 
     private String generateColumnsQuery() {
         return entity.getColumns().stream()
-                .map(this::generateColumnQuery)
-                .collect(Collectors.joining(DELIMITER));
+            .map(this::generateColumnQuery)
+            .collect(Collectors.joining(DELIMITER));
     }
 
     private String generateColumnQuery(ColumnMetadata column) {
@@ -36,14 +35,15 @@ public class CreateQueryBuilder {
 
     public String generateQuery() {
         return String.format(CREATE_TABLE_TEMPLATE,
-                entity.getName(),
-                String.join(DELIMITER,
-                        generateColumnsQuery(),
-                        String.format(PRIMARY_KEY_TEMPLATE, entity.getPrimaryKey().getName()))
+            entity.getName(),
+            String.join(DELIMITER,
+                generateColumnsQuery(),
+                String.format(PRIMARY_KEY_TEMPLATE, entity.getPrimaryKey().getName()))
         );
     }
 
     public static class Builder {
+
         private Dialect dialect;
         private EntityMetadata entity;
 

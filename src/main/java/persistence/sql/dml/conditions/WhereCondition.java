@@ -20,7 +20,8 @@ public class WhereCondition {
     }
 
     public String toSqlCondition() {
-        return String.format(WHERE_CLAUSE_TEMPLATE, columnMetadata.getName(), operator, convertValue());
+        return String.format(WHERE_CLAUSE_TEMPLATE, columnMetadata.getName(), operator,
+            convertValue());
     }
 
     private String convertValue() {

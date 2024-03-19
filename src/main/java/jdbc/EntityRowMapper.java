@@ -1,8 +1,6 @@
 package jdbc;
 
 import jakarta.persistence.Transient;
-import persistence.sql.metadata.ColumnMetadata;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.ResultSet;
@@ -10,8 +8,10 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import persistence.sql.metadata.ColumnMetadata;
 
 public class EntityRowMapper<T> implements RowMapper<T> {
+
     private final Class<T> clazz;
 
     public EntityRowMapper(Class<T> clazz) {
@@ -30,8 +30,8 @@ public class EntityRowMapper<T> implements RowMapper<T> {
 
     private List<Field> getFields() {
         return Arrays.stream(clazz.getDeclaredFields())
-                .filter(field -> !field.isAnnotationPresent(Transient.class))
-                .collect(Collectors.toList());
+            .filter(field -> !field.isAnnotationPresent(Transient.class))
+            .collect(Collectors.toList());
     }
 
     private T convertToInstance(ResultSet resultSet, List<Field> fields) {

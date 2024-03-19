@@ -1,12 +1,11 @@
 package persistence.entity;
 
+import java.util.List;
 import jdbc.EntityRowMapper;
 import jdbc.JdbcTemplate;
 import persistence.sql.dml.SelectQueryBuilder;
 import persistence.sql.dml.conditions.WhereRecord;
 import persistence.sql.metadata.EntityMetadata;
-
-import java.util.List;
 
 public class EntityLoader {
 
@@ -18,10 +17,12 @@ public class EntityLoader {
 
     public <T> T find(Class<T> clazz, Object id) {
         SelectQueryBuilder selectQueryBuilder = SelectQueryBuilder.builder()
-                .entity(clazz)
-                .where(List.of(WhereRecord.of(EntityMetadata.from(clazz).getPrimaryKey().getName(), "=", id)))
-                .build();
+            .entity(clazz)
+            .where(List.of(
+                WhereRecord.of(EntityMetadata.from(clazz).getPrimaryKey().getName(), "=", id)))
+            .build();
 
-        return jdbcTemplate.queryForObject(selectQueryBuilder.generateQuery(), resultSet -> new EntityRowMapper<>(clazz).mapRow(resultSet));
+        return jdbcTemplate.queryForObject(selectQueryBuilder.generateQuery(),
+            resultSet -> new EntityRowMapper<>(clazz).mapRow(resultSet));
     }
 }

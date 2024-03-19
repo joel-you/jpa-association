@@ -1,10 +1,9 @@
 package persistence.sql.dml;
 
-import persistence.sql.metadata.ColumnMetadata;
-import persistence.sql.metadata.EntityMetadata;
-
 import java.util.List;
 import java.util.stream.Collectors;
+import persistence.sql.metadata.ColumnMetadata;
+import persistence.sql.metadata.EntityMetadata;
 
 public class InsertQueryBuilder {
 
@@ -23,14 +22,15 @@ public class InsertQueryBuilder {
 
     private String valueClause() {
         return entity.getColumns().stream()
-                .map(column -> entity.getPrimaryKey().getName().equals(column.getName()) ? DEFAULT : generateColumnValue(column.getValue()))
-                .collect(Collectors.joining(DELIMITER));
+            .map(column -> entity.getPrimaryKey().getName().equals(column.getName()) ? DEFAULT
+                : generateColumnValue(column.getValue()))
+            .collect(Collectors.joining(DELIMITER));
     }
 
     private String columnsClause(List<ColumnMetadata> columns) {
         return columns.stream()
-                .map(ColumnMetadata::getName)
-                .collect(Collectors.joining(DELIMITER));
+            .map(ColumnMetadata::getName)
+            .collect(Collectors.joining(DELIMITER));
     }
 
     private String generateColumnValue(Object object) {
@@ -42,10 +42,12 @@ public class InsertQueryBuilder {
     }
 
     public String generateQuery() {
-        return String.format(INSERT_TEMPLATE, entity.getName(), columnsClause(entity.getColumns()), valueClause());
+        return String.format(INSERT_TEMPLATE, entity.getName(), columnsClause(entity.getColumns()),
+            valueClause());
     }
 
     public static class Builder {
+
         private EntityMetadata entity;
 
         private Builder() {

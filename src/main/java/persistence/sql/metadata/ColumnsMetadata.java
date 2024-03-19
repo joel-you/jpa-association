@@ -20,8 +20,8 @@ public class ColumnsMetadata {
 
     public ColumnMetadata getColumn(String name) {
         return columns.stream()
-                .filter(column -> column.getName().equals(name))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Column not found"));
+            .filter(column -> column.getName().equals(name))
+            .findFirst()
+            .orElseThrow(() -> new IllegalArgumentException("Column not found"));
     }
 }

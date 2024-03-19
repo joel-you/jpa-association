@@ -1,12 +1,11 @@
 package persistence.sql.dml;
 
-import persistence.sql.dml.conditions.WhereRecord;
-import persistence.sql.metadata.ColumnMetadata;
-import persistence.sql.metadata.EntityMetadata;
-
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import persistence.sql.dml.conditions.WhereRecord;
+import persistence.sql.metadata.ColumnMetadata;
+import persistence.sql.metadata.EntityMetadata;
 
 public class SelectQueryBuilder {
 
@@ -27,16 +26,19 @@ public class SelectQueryBuilder {
 
     private String columnsClause(List<ColumnMetadata> columns) {
         return columns.stream()
-                .map(ColumnMetadata::getName)
-                .collect(Collectors.joining(DELIMITER));
+            .map(ColumnMetadata::getName)
+            .collect(Collectors.joining(DELIMITER));
     }
 
     public String generateQuery() {
         return String.format(SELECT_TEMPLATE, columnsClause(entity.getColumns()),
-                Objects.isNull(whereQueryBuilder) ? entity.getName() : String.join(WHERE_DELIMITER, entity.getName(), whereQueryBuilder.generateWhereClausesQuery()));
+            Objects.isNull(whereQueryBuilder) ? entity.getName()
+                : String.join(WHERE_DELIMITER, entity.getName(),
+                    whereQueryBuilder.generateWhereClausesQuery()));
     }
 
     public static class Builder {
+
         private EntityMetadata entity;
         private WhereQueryBuilder whereQueryBuilder;
 
@@ -54,8 +56,8 @@ public class SelectQueryBuilder {
             }
 
             this.whereQueryBuilder = WhereQueryBuilder.builder()
-                    .whereConditions(entity.getColumnsMetadata(), whereRecords)
-                    .build();
+                .whereConditions(entity.getColumnsMetadata(), whereRecords)
+                .build();
             return this;
         }
 
