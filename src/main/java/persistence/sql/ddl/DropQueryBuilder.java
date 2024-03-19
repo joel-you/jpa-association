@@ -1,16 +1,13 @@
 package persistence.sql.ddl;
 
-import persistence.sql.dialect.Dialect;
 import persistence.sql.metadata.EntityMetadata;
 
 public class DropQueryBuilder {
 
     public static final String DROP_TABLE_TEMPLATE = "DROP TABLE %s";
-    private final Dialect dialect;
     private final EntityMetadata entity;
 
-    private DropQueryBuilder(Dialect dialect, EntityMetadata entity) {
-        this.dialect = dialect;
+    private DropQueryBuilder(EntityMetadata entity) {
         this.entity = entity;
     }
 
@@ -23,15 +20,9 @@ public class DropQueryBuilder {
     }
 
     public static class Builder {
-        private Dialect dialect;
         private EntityMetadata entity;
 
         private Builder() {
-        }
-
-        public Builder dialect(Dialect dialect) {
-            this.dialect = dialect;
-            return this;
         }
 
         public Builder entity(Class<?> clazz) {
@@ -40,7 +31,7 @@ public class DropQueryBuilder {
         }
 
         public DropQueryBuilder build() {
-            return new DropQueryBuilder(dialect, entity);
+            return new DropQueryBuilder(entity);
         }
     }
 }

@@ -55,7 +55,6 @@ public class DatabaseTest {
     @AfterEach
     void tearDown() {
         DropQueryBuilder dropQueryBuilder = DropQueryBuilder.builder()
-                .dialect(DIALECT)
                 .entity(Person.class)
                 .build();
 
