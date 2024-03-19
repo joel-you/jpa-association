@@ -14,7 +14,7 @@ public class SimpleEntityManager implements EntityManager {
     private final EntityLoader entityLoader;
     private final PersistenceContext persistenceContext;
 
-    public SimpleEntityManager(JdbcTemplate jdbcTemplate, Dialect dialect, PersistenceContext persistenceContext) {
+    public SimpleEntityManager(JdbcTemplate jdbcTemplate, PersistenceContext persistenceContext, Dialect dialect) {
         this.entityPersister = new EntityPersister(jdbcTemplate, dialect);
         this.entityLoader = new EntityLoader(jdbcTemplate, dialect);
         this.persistenceContext = persistenceContext;

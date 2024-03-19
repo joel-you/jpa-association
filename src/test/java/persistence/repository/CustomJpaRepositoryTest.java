@@ -1,60 +1,14 @@
 package persistence.repository;
 
-import database.DatabaseServer;
-import database.H2;
 import domain.Person;
-import jdbc.JdbcTemplate;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import persistence.context.SimplePersistenceContext;
-import persistence.entity.EntityManager;
-import persistence.entity.SimpleEntityManager;
-import persistence.sql.ddl.CreateQueryBuilder;
-import persistence.sql.ddl.DropQueryBuilder;
-import persistence.sql.dialect.Dialect;
-import persistence.sql.dialect.H2Dialect;
-
-import java.sql.SQLException;
+import persistence.DatabaseTest;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-class CustomJpaRepositoryTest {
-    DatabaseServer databaseServer;
-    private JdbcTemplate jdbcTemplate;
-    private CustomJpaRepository<Person, Long> customJpaRepository;
-    private final Dialect DIALECT = new H2Dialect();
-
-    @BeforeEach
-    void setUp() throws SQLException {
-        databaseServer = new H2();
-        databaseServer.start();
-
-        jdbcTemplate = new JdbcTemplate(databaseServer.getConnection());
-        SimplePersistenceContext persistenceContext = new SimplePersistenceContext();
-
-        jdbcTemplate.execute(CreateQueryBuilder.builder()
-                .dialect(DIALECT)
-                .entity(Person.class)
-                .build()
-                .generateQuery());
-
-        EntityManager entityManager = new SimpleEntityManager(jdbcTemplate, DIALECT, persistenceContext);
-        customJpaRepository = new CustomJpaRepository<>(entityManager);
-    }
-
-    @AfterEach
-    void tearDown() {
-        jdbcTemplate.execute(DropQueryBuilder.builder()
-                .dialect(DIALECT)
-                .entity(Person.class)
-                .build()
-                .generateQuery());
-
-        databaseServer.stop();
-    }
+class CustomJpaRepositoryTest extends DatabaseTest {
 
     @Test
     @DisplayName("기존 객체가 없을 경우 save 테스트")
@@ -94,4 +48,5 @@ class CustomJpaRepositoryTest {
                 () -> assertThat(resultPerson.getEmail()).isEqualTo(savedPerson.getEmail())
         );
     }
+
 }

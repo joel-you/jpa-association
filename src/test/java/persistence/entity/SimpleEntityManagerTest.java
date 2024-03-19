@@ -1,61 +1,17 @@
 package persistence.entity;
 
-import database.DatabaseServer;
-import database.H2;
 import domain.Person;
-import jdbc.JdbcTemplate;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import persistence.context.SimplePersistenceContext;
-import persistence.sql.ddl.CreateQueryBuilder;
-import persistence.sql.ddl.DropQueryBuilder;
-import persistence.sql.dialect.Dialect;
-import persistence.sql.dialect.H2Dialect;
-
-import java.sql.SQLException;
+import persistence.DatabaseTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-class SimpleEntityManagerTest {
-    private final Dialect DIALECT = new H2Dialect();
-    private JdbcTemplate jdbcTemplate;
-    private EntityManager entityManager;
-    private SimplePersistenceContext persistenceContext;
-    private DatabaseServer server;
-    private Person person;
+class SimpleEntityManagerTest extends DatabaseTest {
 
-    @BeforeEach
-    void setUp() throws SQLException {
-        server = new H2();
-        server.start();
-        jdbcTemplate = new JdbcTemplate(server.getConnection());
-        persistenceContext = new SimplePersistenceContext();
-
-        person = Person.of(1L, "test", 11, "test!@gmail.com");
-
-        jdbcTemplate.execute(CreateQueryBuilder.builder()
-                .dialect(DIALECT)
-                .entity(Person.class)
-                .build()
-                .generateQuery());
-
-        entityManager = new SimpleEntityManager(jdbcTemplate, DIALECT, persistenceContext);
-    }
-
-    @AfterEach
-    void tearDown() {
-        jdbcTemplate.execute(DropQueryBuilder.builder()
-                .dialect(DIALECT)
-                .entity(Person.class)
-                .build()
-                .generateQuery());
-
-        server.stop();
-    }
+    private final Person person = Person.of(1L, "test", 11, "test!@gmail.com");
 
     @Test
     @DisplayName("요구사항1 - find")
@@ -170,4 +126,5 @@ class SimpleEntityManagerTest {
         assertThatThrownBy(() -> entityManager.remove(findPerson))
                 .isExactlyInstanceOf(IllegalStateException.class);
     }
+
 }
